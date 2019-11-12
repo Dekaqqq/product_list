@@ -6,6 +6,14 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import { fetchData, URL } from '../../services/fetchData';
 import ProductsList from '../ProdutsList/ProductsList';
 import ProductsInput from '../ProductsInput/ProductsInput';
+import CategoryList from '../CategoryList/CategoryList';
+
+const getUniqueCategories = products => {
+    return products.reduce((acc, el) => {
+        if (!acc.includes(el.bsr_category)) acc.push(el.bsr_category);
+        return acc;
+    }, []);
+};
 
 class App extends Component {
     state = {
@@ -39,17 +47,26 @@ class App extends Component {
         this.setState({ value });
     };
 
+    selectCategory = category => {
+        this.onSearch(category);
+    };
+
     render() {
         const { isLoading, error, products, value } = this.state;
+        const categories = getUniqueCategories(products);
 
         const filteredProducts = value
-            ? products.filter(el =>
-                  el.name.toLowerCase().includes(value.toLowerCase()),
+            ? products.filter(
+                  el =>
+                      el.name.toLowerCase().includes(value.toLowerCase()) ||
+                      el.bsr_category
+                          .toLowerCase()
+                          .includes(value.toLowerCase()),
               )
             : products;
 
         return (
-            <div>
+            <div className="container">
                 {isLoading && (
                     <Loader
                         type="Triangle"
@@ -59,9 +76,15 @@ class App extends Component {
                 )}
                 {error && <ToastContainer autoClose={1500} />}
                 <ProductsInput onSearch={this.onSearch} />
-                {products.length > 0 && (
-                    <ProductsList products={filteredProducts} />
-                )}
+                <div className="row">
+                    <CategoryList
+                        categories={categories}
+                        selectCategory={this.selectCategory}
+                    />
+                    {products.length > 0 && (
+                        <ProductsList products={filteredProducts} />
+                    )}
+                </div>
             </div>
         );
     }

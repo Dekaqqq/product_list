@@ -1,11 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+    ListItem,
+    ListItemLink,
+    ListItemName,
+    ListItemPrice,
+} from '../../../styledComponents/styled';
 
 const ProductsItem = ({ img, brand, name, bsr_category, link, price }) => {
     const shortName = name.slice(0, 16);
 
     return (
-        <li className="list-item">
+        <ListItem className="col-md-4">
             <img
                 src={img}
                 alt={brand}
@@ -14,17 +20,19 @@ const ProductsItem = ({ img, brand, name, bsr_category, link, price }) => {
                 height="150"
             />
             <h3 className="list-item__headline">{bsr_category}</h3>
-            <p className="list-item__name">{shortName}</p>
-            <a
+            <ListItemName className="list-item__name">{shortName}</ListItemName>
+            <ListItemLink
                 href={link}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="list-item__link"
             >
                 Show Product
-            </a>
-            <p className="list-item__price">{price} $</p>
-        </li>
+            </ListItemLink>
+            <ListItemPrice className="list-item__price">
+                {price} $
+            </ListItemPrice>
+        </ListItem>
     );
 };
 
