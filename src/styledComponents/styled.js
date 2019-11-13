@@ -12,7 +12,9 @@ export const List = styled.ul`
     list-style: none;
 `;
 
-export const ListCategoryDescription = styled.p`
+export const ListCategoryDescription = styled.span`
+    display: block;
+    margin: 10px 0;
     font-weight: 700;
     cursor: pointer;
 `;
