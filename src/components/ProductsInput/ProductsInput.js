@@ -42,7 +42,7 @@ class ProductsInput extends Component {
                 />
                 <button
                     type="submit"
-                    className="form-element btn btn-primary button text-center col-md-3 col-sm-3"
+                    className="form-element btn btn-primary text-center col-md-3 col-sm-3"
                 >
                     Find
                 </button>

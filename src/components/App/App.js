@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from 'react-loader-spinner';
 import 'react-toastify/dist/ReactToastify.css';
@@ -24,6 +25,8 @@ class App extends Component {
     };
 
     componentDidMount() {
+        const { location } = this.props;
+
         this.setState({
             isLoading: true,
         });
@@ -35,6 +38,14 @@ class App extends Component {
                 this.handleError(error.message);
             })
             .finally(() => this.setState({ isLoading: false }));
+
+        if (location.search) {
+            const searchValue = location.search;
+            const index = searchValue.lastIndexOf('=');
+            const result = searchValue.substring(index + 1);
+
+            this.onSearch(result);
+        }
     }
 
     handleError = msg => {
@@ -44,7 +55,16 @@ class App extends Component {
     };
 
     onSearch = value => {
+        const { history, location } = this.props;
+
         this.setState({ value });
+
+        if (value) {
+            history.push({
+                ...location,
+                search: `item=${value}`,
+            });
+        }
     };
 
     selectCategory = category => {
@@ -54,7 +74,6 @@ class App extends Component {
     render() {
         const { isLoading, error, products, value } = this.state;
         const categories = getUniqueCategories(products);
-
         const filteredProducts = value
             ? products.filter(
                   el =>
@@ -81,13 +100,61 @@ class App extends Component {
                         categories={categories}
                         selectCategory={this.selectCategory}
                     />
-                    {products.length > 0 && (
+                    <Switch>
+                        <Route
+                            path="/"
+                            exact
+                            render={props => (
+                                <ProductsList
+                                    products={filteredProducts}
+                                    {...props}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/Home&Kitchen"
+                            render={props => (
+                                <ProductsList
+                                    products={filteredProducts}
+                                    {...props}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/Sports&Outdoors"
+                            render={props => (
+                                <ProductsList
+                                    products={filteredProducts}
+                                    {...props}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/Health&PersonalCare"
+                            render={props => (
+                                <ProductsList
+                                    products={filteredProducts}
+                                    {...props}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/BabyProducts"
+                            render={props => (
+                                <ProductsList
+                                    products={filteredProducts}
+                                    {...props}
+                                />
+                            )}
+                        />
+                    </Switch>
+                    {/* {products.length > 0 && (
                         <ProductsList products={filteredProducts} />
-                    )}
+                    )} */}
                 </div>
             </div>
         );
     }
 }
 
-export default App;
+export default withRouter(App);
