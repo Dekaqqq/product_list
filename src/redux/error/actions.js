@@ -1,8 +1,7 @@
 import SHOW_ERROR from './types';
 
-const showError = message => ({
+const showError = () => ({
     type: SHOW_ERROR,
-    payload: message,
 });
 
 export default showError;

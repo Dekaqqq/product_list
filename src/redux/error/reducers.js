@@ -1,9 +1,9 @@
 import SHOW_ERROR from './types';
 
-const errorReducer = (state = false, { type, payload }) => {
+const errorReducer = (state = false, { type }) => {
     switch (type) {
         case SHOW_ERROR:
-            return payload;
+            return true;
         default:
             return state;
     }
