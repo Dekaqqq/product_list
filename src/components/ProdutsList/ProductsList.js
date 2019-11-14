@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import ProductItem from './ProductsItem/ProductsItem';
 import { List } from '../../styledComponents/styled';
 import getValue from '../../redux/value/selectors';
-// import getCategory from '../../redux/category/selectors';
 
 const ProductsList = ({ products, value }) => {
     const filteredProducts =
@@ -37,7 +36,6 @@ ProductsList.propTypes = {
 
 const mapStateToProps = state => ({
     value: getValue(state),
-    // category: getCategory(state),
 });
 
 export default connect(mapStateToProps)(ProductsList);

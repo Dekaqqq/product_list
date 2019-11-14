@@ -11,7 +11,6 @@ import { productsSelectors, productsActions } from '../../redux/products';
 import getLoader from '../../redux/loader/selectors';
 import getValue from '../../redux/value/selectors';
 import addValue from '../../redux/value/action';
-import addCategory from '../../redux/category/action';
 
 const getUniqueCategories = products => {
     return products.reduce((acc, el) => {
@@ -51,11 +50,8 @@ class App extends Component {
         this.onSearch(category);
     };
 
-    handleChange = ({ target }) => {
-        const { value } = target;
-        const { changeValue } = this.props;
-
-        changeValue(value);
+    handleChange = value => {
+        this.onSearch(value);
     };
 
     render() {
@@ -85,8 +81,14 @@ class App extends Component {
                     )}
                     <Switch>
                         <Route
-                            path="/AllCategories"
+                            path="/"
                             exact
+                            render={props => (
+                                <ProductsList products={products} {...props} />
+                            )}
+                        />
+                        <Route
+                            path="/AllCategories"
                             render={props => (
                                 <ProductsList products={products} {...props} />
                             )}
@@ -131,7 +133,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fetchData: () => dispatch(productsActions.fetchProducts()),
     changeValue: value => dispatch(addValue(value)),
-    addCategoryItem: category => dispatch(addCategory(category)),
 });
 
 export default compose(

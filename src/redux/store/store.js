@@ -5,7 +5,6 @@ import productsReducer from '../products';
 import loadingReducer from '../loader';
 import errorReducer from '../error';
 import valueReducer from '../value/reducers';
-import categoryReducer from '../category/reducers';
 import rootSaga from '../products/operations';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -17,7 +16,6 @@ const rootReducer = combineReducers({
     loading: loadingReducer,
     error: errorReducer,
     value: valueReducer,
-    category: categoryReducer,
 });
 
 const store = createStore(
