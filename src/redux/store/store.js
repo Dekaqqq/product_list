@@ -1,11 +1,10 @@
 import { combineReducers, createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import productsReducer from '../products';
-import loadingReducer from '../loader';
-import errorReducer from '../error';
-import valueReducer from '../value/reducers';
-import rootSaga from '../products/operations';
+import rootSaga, { productsReducer } from '../products';
+import { loaderReducer } from '../loading';
+import { errorReducer } from '../error';
+import { valueReducer } from '../value';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -13,9 +12,9 @@ const middleware = [sagaMiddleware];
 
 const rootReducer = combineReducers({
     products: productsReducer,
-    loading: loadingReducer,
+    loading: loaderReducer,
     error: errorReducer,
-    value: valueReducer,
+    value: valueReducer, // searchValue
 });
 
 const store = createStore(

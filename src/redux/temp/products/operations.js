@@ -1,6 +1,6 @@
 import { put, call, takeEvery } from 'redux-saga/effects';
 import { loadingActions } from '../loader';
-import { fetchData } from '../../services/fetchData';
+import { fetchData } from '../../../services/fetchData';
 import { addProducts } from './actions';
 import showError from '../error/actions';
 import { FETCH_PRODUCTS } from './types';

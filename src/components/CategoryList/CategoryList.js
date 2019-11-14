@@ -1,20 +1,48 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import { ListCategoryDescription } from '../../styledComponents/styled';
 
-const CategoryList = ({ categories, selectCategory }) => {
+const categories = [
+    {
+        text: 'All Categories',
+        path: '/',
+    },
+    {
+        text: 'Home & Kitchen',
+        path: '/Home&Kitchen',
+    },
+    {
+        text: 'Sports & Outdoors',
+        path: '/Sports&Outdoors',
+    },
+    {
+        text: 'Health & Personal Care',
+        path: '/Health&PersonalCare',
+    },
+    {
+        text: 'Baby Products',
+        path: '/BabyProducts',
+    },
+];
+
+const CategoryList = ({ selectCategory }) => {
     return (
         <>
-            <ul className="col-sm-2 col-md-4">
+            <ul>
                 {categories.map(el => (
                     <li key={shortid.generate()}>
-                        <NavLink to={el.replace(/\s/g, '')}>
+                        <NavLink
+                            to={{
+                                pathname: el.path,
+                                // search: location.search,
+                            }}
+                        >
                             <ListCategoryDescription
                                 onClick={() => selectCategory(el)}
                             >
-                                {el}
+                                {el.text}
                             </ListCategoryDescription>
                         </NavLink>
                     </li>
@@ -25,8 +53,7 @@ const CategoryList = ({ categories, selectCategory }) => {
 };
 
 CategoryList.propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     selectCategory: PropTypes.func.isRequired,
 };
 
-export default CategoryList;
+export default withRouter(CategoryList);

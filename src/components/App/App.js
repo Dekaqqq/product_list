@@ -2,22 +2,17 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Loader from 'react-loader-spinner';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import ProductsList from '../ProdutsList/ProductsList';
 import ProductsInput from '../ProductsInput/ProductsInput';
 import CategoryList from '../CategoryList/CategoryList';
-import { productsSelectors, productsActions } from '../../redux/products';
-import getLoader from '../../redux/loader/selectors';
-import getValue from '../../redux/value/selectors';
-import addValue from '../../redux/value/action';
-
-const getUniqueCategories = products => {
-    return products.reduce((acc, el) => {
-        if (!acc.includes(el.bsr_category)) acc.push(el.bsr_category);
-        return acc;
-    }, []);
-};
+import { getProducts, fetchProducts } from '../../redux/products';
+import { getLoader } from '../../redux/loading';
+import { getValue, addValue } from '../../redux/value';
 
 class App extends Component {
     componentDidMount() {
@@ -47,7 +42,7 @@ class App extends Component {
     };
 
     selectCategory = category => {
-        this.onSearch(category);
+        this.onSearch(category.text);
     };
 
     handleChange = value => {
@@ -56,14 +51,9 @@ class App extends Component {
 
     render() {
         const { loading, products } = this.props;
-        const categories = getUniqueCategories(products);
-        categories.unshift('All Categories');
-
-        // Я понимаю, что лучше было бы захардкодить список катерогий, а не вычислять их динмачески,
-        // тогда не пришлось бы делать лишние движение со списком, сделал так исключительно для практики
 
         return (
-            <div className="container">
+            <Container>
                 {loading && (
                     <Loader
                         type="Triangle"
@@ -71,67 +61,79 @@ class App extends Component {
                         style={{ textAlign: 'center' }}
                     />
                 )}
-                <ProductsInput onSearch={this.handleChange} />
-                <div className="row">
-                    {categories.length >= 5 && (
-                        <CategoryList
-                            categories={categories}
-                            selectCategory={this.selectCategory}
-                        />
-                    )}
-                    <Switch>
-                        <Route
-                            path="/"
-                            exact
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                        <Route
-                            path="/AllCategories"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                        <Route
-                            path="/Home&Kitchen"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                        <Route
-                            path="/Sports&Outdoors"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                        <Route
-                            path="/Health&PersonalCare"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                        <Route
-                            path="/BabyProducts"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
-                    </Switch>
-                </div>
-            </div>
+                <Row className="justify-content-md-center">
+                    <Col sm={10}>
+                        <ProductsInput onSearch={this.handleChange} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col sm={3}>
+                        <CategoryList selectCategory={this.selectCategory} />
+                    </Col>
+                    <Col sm={9}>
+                        <Switch>
+                            <Route
+                                path="/"
+                                exact
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/Home&Kitchen"
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/Sports&Outdoors"
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/Health&PersonalCare"
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            <Route
+                                path="/BabyProducts"
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                        </Switch>
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    products: productsSelectors.getProducts(state),
+    products: getProducts(state),
     loading: getLoader(state),
     value: getValue(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchData: () => dispatch(productsActions.fetchProducts()),
+    fetchData: () => dispatch(fetchProducts()),
     changeValue: value => dispatch(addValue(value)),
 });
 

@@ -8,6 +8,7 @@ export const ListItem = styled.li`
 
 export const List = styled.ul`
     display: flex;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     list-style: none;
 `;

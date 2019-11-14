@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ProductItem from './ProductsItem/ProductsItem';
 import { List } from '../../styledComponents/styled';
-import getValue from '../../redux/value/selectors';
+import { getValue } from '../../redux/value';
 
 const ProductsList = ({ products, value }) => {
     const filteredProducts =
@@ -18,7 +18,7 @@ const ProductsList = ({ products, value }) => {
             : products;
 
     return (
-        <List className="col-sm-10 col-md-8">
+        <List>
             {filteredProducts.map(el => (
                 <ProductItem {...el} key={el.asin} />
             ))}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import getValue from '../../redux/value/selectors';
+import { getValue } from '../../redux/value';
 
 class ProductsInput extends Component {
     state = {
