@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getValue } from '../../redux/value';
@@ -7,6 +9,30 @@ class ProductsInput extends Component {
     state = {
         text: '',
     };
+
+    componentDidMount() {
+        const { location } = this.props;
+
+        if (location.search) {
+            const searchValue = location.search;
+            const index = searchValue.lastIndexOf('=');
+            const result = searchValue.substring(index + 1);
+
+            this.setState({
+                text: result,
+            });
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        const { location } = this.props;
+
+        if (prevProps.location.pathname !== location.pathname) {
+            this.setState({
+                text: '',
+            });
+        }
+    }
 
     handleChange = ({ target }) => {
         const { name, value } = target;
@@ -46,4 +72,4 @@ const mapStateToProps = state => ({
     value: getValue(state),
 });
 
-export default connect(mapStateToProps)(ProductsInput);
+export default compose(connect(mapStateToProps), withRouter)(ProductsInput);

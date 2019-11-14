@@ -14,9 +14,14 @@ import { getProducts, fetchProducts } from '../../redux/products';
 import { getLoader } from '../../redux/loading';
 import { getValue, addValue } from '../../redux/value';
 
+const filterProductsByCategory = (products, category) =>
+    products.filter(el =>
+        el.bsr_category.toLowerCase().includes(category.toLowerCase()),
+    );
+
 class App extends Component {
     componentDidMount() {
-        const { location, fetchData } = this.props;
+        const { location, fetchData, changeValue } = this.props;
 
         fetchData();
 
@@ -25,6 +30,7 @@ class App extends Component {
             const index = searchValue.lastIndexOf('=');
             const result = searchValue.substring(index + 1);
             this.onSearch(result);
+            changeValue(result);
         }
     }
 
@@ -33,12 +39,10 @@ class App extends Component {
 
         changeValue(value);
 
-        if (value) {
-            history.push({
-                ...location,
-                search: `item=${value}`,
-            });
-        }
+        history.push({
+            ...location,
+            search: `item=${value}`,
+        });
     };
 
     selectCategory = category => {
@@ -75,48 +79,78 @@ class App extends Component {
                             <Route
                                 path="/"
                                 exact
-                                render={props => (
-                                    <ProductsList
-                                        products={products}
-                                        {...props}
-                                    />
-                                )}
+                                render={props => {
+                                    return (
+                                        <ProductsList
+                                            products={products}
+                                            {...props}
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 path="/Home&Kitchen"
-                                render={props => (
-                                    <ProductsList
-                                        products={products}
-                                        {...props}
-                                    />
-                                )}
+                                render={props => {
+                                    const filteredProducts = filterProductsByCategory(
+                                        products,
+                                        'Home & Kitchen',
+                                    );
+
+                                    return (
+                                        <ProductsList
+                                            products={filteredProducts}
+                                            {...props}
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 path="/Sports&Outdoors"
-                                render={props => (
-                                    <ProductsList
-                                        products={products}
-                                        {...props}
-                                    />
-                                )}
+                                render={props => {
+                                    const filteredProducts = filterProductsByCategory(
+                                        products,
+                                        'Sports & Outdoors',
+                                    );
+
+                                    return (
+                                        <ProductsList
+                                            products={filteredProducts}
+                                            {...props}
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 path="/Health&PersonalCare"
-                                render={props => (
-                                    <ProductsList
-                                        products={products}
-                                        {...props}
-                                    />
-                                )}
+                                render={props => {
+                                    const filteredProducts = filterProductsByCategory(
+                                        products,
+                                        'Health & Personal Care',
+                                    );
+
+                                    return (
+                                        <ProductsList
+                                            products={filteredProducts}
+                                            {...props}
+                                        />
+                                    );
+                                }}
                             />
                             <Route
                                 path="/BabyProducts"
-                                render={props => (
-                                    <ProductsList
-                                        products={products}
-                                        {...props}
-                                    />
-                                )}
+                                render={props => {
+                                    const filteredProducts = filterProductsByCategory(
+                                        products,
+                                        'Baby Products',
+                                    );
+
+                                    return (
+                                        <ProductsList
+                                            products={filteredProducts}
+                                            {...props}
+                                        />
+                                    );
+                                }}
                             />
                         </Switch>
                     </Col>
