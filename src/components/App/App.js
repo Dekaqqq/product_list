@@ -11,6 +11,7 @@ import { productsSelectors, productsActions } from '../../redux/products';
 import getLoader from '../../redux/loader/selectors';
 import getValue from '../../redux/value/selectors';
 import addValue from '../../redux/value/action';
+import addCategory from '../../redux/category/action';
 
 const getUniqueCategories = products => {
     return products.reduce((acc, el) => {
@@ -50,9 +51,20 @@ class App extends Component {
         this.onSearch(category);
     };
 
+    handleChange = ({ target }) => {
+        const { value } = target;
+        const { changeValue } = this.props;
+
+        changeValue(value);
+    };
+
     render() {
         const { loading, products } = this.props;
         const categories = getUniqueCategories(products);
+        categories.unshift('All Categories');
+
+        // Я понимаю, что лучше было бы захардкодить список катерогий, а не вычислять их динмачески,
+        // тогда не пришлось бы делать лишние движение со списком, сделал так исключительно для практики
 
         return (
             <div className="container">
@@ -63,15 +75,17 @@ class App extends Component {
                         style={{ textAlign: 'center' }}
                     />
                 )}
-                <ProductsInput onSearch={this.onSearch} />
+                <ProductsInput onSearch={this.handleChange} />
                 <div className="row">
-                    <CategoryList
-                        categories={categories}
-                        selectCategory={this.selectCategory}
-                    />
+                    {categories.length >= 5 && (
+                        <CategoryList
+                            categories={categories}
+                            selectCategory={this.selectCategory}
+                        />
+                    )}
                     <Switch>
                         <Route
-                            path="/"
+                            path="/AllCategories"
                             exact
                             render={props => (
                                 <ProductsList products={products} {...props} />
@@ -117,6 +131,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fetchData: () => dispatch(productsActions.fetchProducts()),
     changeValue: value => dispatch(addValue(value)),
+    addCategoryItem: category => dispatch(addCategory(category)),
 });
 
 export default compose(

@@ -1,52 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import getValue from '../../redux/value/selectors';
 
 class ProductsInput extends Component {
-    state = {
-        text: '',
-    };
-
-    handleChange = ({ target }) => {
-        const { name, value } = target;
-
-        this.setState({
-            [name]: value,
-        });
-    };
-
-    handleSubmit = e => {
-        const { text } = this.state;
-        const { onSearch } = this.props;
-
-        e.preventDefault();
-
-        onSearch(text);
-
-        this.setState({
-            text: '',
-        });
-    };
+    state = {};
 
     render() {
-        const { text } = this.state;
-
+        const { value, onSearch } = this.props;
         return (
-            <form onSubmit={this.handleSubmit} className="search-form row">
+            <>
                 <input
                     type="text"
-                    value={text}
-                    name="text"
-                    onChange={this.handleChange}
-                    className="form-element  text-center col-md-10"
+                    value={value}
+                    onChange={onSearch}
+                    className="form-element  text-center col-md-12"
                     placeholder="Enter name of product to search..."
                 />
-                <button
-                    type="submit"
-                    className="form-element btn btn-primary text-center col-md-3 col-sm-3"
-                >
-                    Find
-                </button>
-            </form>
+            </>
         );
     }
 }
@@ -55,4 +26,8 @@ ProductsInput.propTypes = {
     onSearch: PropTypes.func.isRequired,
 };
 
-export default ProductsInput;
+const mapStateToProps = state => ({
+    value: getValue(state),
+});
+
+export default connect(mapStateToProps)(ProductsInput);
