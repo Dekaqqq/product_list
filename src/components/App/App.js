@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import queryString from 'query-string';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -20,6 +21,8 @@ const filterProductsByCategory = (products, category) =>
         el.bsr_category.toLowerCase().includes(category.toLowerCase()),
     );
 
+const getSearchValue = props => queryString.parse(props).item;
+
 class App extends Component {
     componentDidMount() {
         const { location, fetchData, changeValue } = this.props;
@@ -27,9 +30,8 @@ class App extends Component {
         fetchData();
 
         if (location.search) {
-            const searchValue = location.search;
-            const index = searchValue.lastIndexOf('=');
-            const result = searchValue.substring(index + 1);
+            const result = getSearchValue(location.search);
+
             this.onSearch(result);
             changeValue(result);
         }
@@ -57,7 +59,7 @@ class App extends Component {
     };
 
     render() {
-        const { loading, products, category } = this.props;
+        const { loading, products, location } = this.props;
 
         return (
             <Container>
@@ -94,14 +96,32 @@ class App extends Component {
                             <Route
                                 path="/Home&Kitchen"
                                 render={props => {
+                                    const result = getSearchValue(
+                                        location.search,
+                                    );
+
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        category,
+                                        'Home & Kitchen',
                                     );
+
+                                    const filteredProductsBySearchValue = result
+                                        ? filteredProducts.filter(el =>
+                                              el.name
+                                                  .toLowerCase()
+                                                  .includes(
+                                                      result.toLowerCase(),
+                                                  ),
+                                          )
+                                        : null;
 
                                     return (
                                         <ProductsList
-                                            products={filteredProducts}
+                                            products={
+                                                result
+                                                    ? filteredProductsBySearchValue
+                                                    : filteredProducts
+                                            }
                                             {...props}
                                         />
                                     );
@@ -110,14 +130,31 @@ class App extends Component {
                             <Route
                                 path="/Sports&Outdoors"
                                 render={props => {
+                                    const result = getSearchValue(
+                                        location.search,
+                                    );
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        category,
+                                        'Sports & Outdoors',
                                     );
+
+                                    const filteredProductsBySearchValue = result
+                                        ? filteredProducts.filter(el =>
+                                              el.name
+                                                  .toLowerCase()
+                                                  .includes(
+                                                      result.toLowerCase(),
+                                                  ),
+                                          )
+                                        : null;
 
                                     return (
                                         <ProductsList
-                                            products={filteredProducts}
+                                            products={
+                                                result
+                                                    ? filteredProductsBySearchValue
+                                                    : filteredProducts
+                                            }
                                             {...props}
                                         />
                                     );
@@ -126,14 +163,31 @@ class App extends Component {
                             <Route
                                 path="/Health&PersonalCare"
                                 render={props => {
+                                    const result = getSearchValue(
+                                        location.search,
+                                    );
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        category,
+                                        'Health & Personal Care',
                                     );
+
+                                    const filteredProductsBySearchValue = result
+                                        ? filteredProducts.filter(el =>
+                                              el.name
+                                                  .toLowerCase()
+                                                  .includes(
+                                                      result.toLowerCase(),
+                                                  ),
+                                          )
+                                        : null;
 
                                     return (
                                         <ProductsList
-                                            products={filteredProducts}
+                                            products={
+                                                result
+                                                    ? filteredProductsBySearchValue
+                                                    : filteredProducts
+                                            }
                                             {...props}
                                         />
                                     );
@@ -142,14 +196,31 @@ class App extends Component {
                             <Route
                                 path="/BabyProducts"
                                 render={props => {
+                                    const result = getSearchValue(
+                                        location.search,
+                                    );
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        category,
+                                        'Baby Products',
                                     );
+
+                                    const filteredProductsBySearchValue = result
+                                        ? filteredProducts.filter(el =>
+                                              el.name
+                                                  .toLowerCase()
+                                                  .includes(
+                                                      result.toLowerCase(),
+                                                  ),
+                                          )
+                                        : null;
 
                                     return (
                                         <ProductsList
-                                            products={filteredProducts}
+                                            products={
+                                                result
+                                                    ? filteredProductsBySearchValue
+                                                    : filteredProducts
+                                            }
                                             {...props}
                                         />
                                     );
