@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getValue } from '../../redux/value';
+import { getCategory } from '../../redux/category';
 
 class ProductsInput extends Component {
     state = {
@@ -24,15 +25,20 @@ class ProductsInput extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        const { location } = this.props;
-
-        if (prevProps.location.pathname !== location.pathname) {
-            this.setState({
-                text: '',
-            });
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     // const { location, onSearch } = this.props;
+    //     // const searchValue = location.search;
+    //     // const index = searchValue.lastIndexOf('=');
+    //     // const result = searchValue.substring(index + 1);
+    //     // if (prevProps.location.pathname !== location.pathname) {
+    //     //     // this.setState(
+    //     //     //     {
+    //     //     //         text: result,
+    //     //     //     },
+    //     //     //     () => onSearch(result),
+    //     //     // );
+    //     // }
+    // }
 
     handleChange = ({ target }) => {
         const { name, value } = target;
@@ -70,6 +76,7 @@ ProductsInput.propTypes = {
 
 const mapStateToProps = state => ({
     value: getValue(state),
+    category: getCategory(state),
 });
 
 export default compose(connect(mapStateToProps), withRouter)(ProductsInput);

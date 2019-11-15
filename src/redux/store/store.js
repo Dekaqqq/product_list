@@ -5,6 +5,7 @@ import rootSaga, { productsReducer } from '../products';
 import { loaderReducer } from '../loading';
 import { errorReducer } from '../error';
 import { valueReducer } from '../value';
+import { categoryReducer } from '../category';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     loading: loaderReducer,
     error: errorReducer,
     value: valueReducer, // searchValue
+    category: categoryReducer,
 });
 
 const store = createStore(

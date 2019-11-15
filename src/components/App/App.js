@@ -13,6 +13,7 @@ import CategoryList from '../CategoryList/CategoryList';
 import { getProducts, fetchProducts } from '../../redux/products';
 import { getLoader } from '../../redux/loading';
 import { getValue, addValue } from '../../redux/value';
+import { addCategory, getCategory } from '../../redux/category';
 
 const filterProductsByCategory = (products, category) =>
     products.filter(el =>
@@ -46,7 +47,11 @@ class App extends Component {
     };
 
     selectCategory = category => {
-        this.onSearch(category.text);
+        console.log(category.text);
+        // this.onSearch(category.text);
+        const { changeCategory } = this.props;
+
+        changeCategory(category.text);
     };
 
     handleChange = value => {
@@ -54,7 +59,7 @@ class App extends Component {
     };
 
     render() {
-        const { loading, products } = this.props;
+        const { loading, products, category } = this.props;
 
         return (
             <Container>
@@ -93,7 +98,7 @@ class App extends Component {
                                 render={props => {
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        'Home & Kitchen',
+                                        category,
                                     );
 
                                     return (
@@ -109,7 +114,7 @@ class App extends Component {
                                 render={props => {
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        'Sports & Outdoors',
+                                        category,
                                     );
 
                                     return (
@@ -125,7 +130,7 @@ class App extends Component {
                                 render={props => {
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        'Health & Personal Care',
+                                        category,
                                     );
 
                                     return (
@@ -141,7 +146,7 @@ class App extends Component {
                                 render={props => {
                                     const filteredProducts = filterProductsByCategory(
                                         products,
-                                        'Baby Products',
+                                        category,
                                     );
 
                                     return (
@@ -164,11 +169,13 @@ const mapStateToProps = state => ({
     products: getProducts(state),
     loading: getLoader(state),
     value: getValue(state),
+    category: getCategory(state),
 });
 
 const mapDispatchToProps = dispatch => ({
     fetchData: () => dispatch(fetchProducts()),
     changeValue: value => dispatch(addValue(value)),
+    changeCategory: category => dispatch(addCategory(category)),
 });
 
 export default compose(

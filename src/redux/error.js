@@ -1,6 +1,6 @@
 // actionsTypes
 
-export const SHOW_ERROR = 'productList/error/SHOW_ERROR';
+export const SHOW_ERROR = 'SHOW_ERROR';
 
 // actions
 

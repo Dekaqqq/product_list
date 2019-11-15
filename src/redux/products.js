@@ -5,8 +5,8 @@ import { showError } from './error';
 
 // actionsTypes
 
-export const ADD_PRODUCT = 'productList/products/ADD_PRODUCT';
-export const FETCH_PRODUCTS = 'productList/products/FETCH_PRODUCTS';
+export const ADD_PRODUCT = 'ADD_PRODUCT';
+export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 
 // actions
 
