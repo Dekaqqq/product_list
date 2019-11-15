@@ -47,8 +47,6 @@ class App extends Component {
     };
 
     selectCategory = category => {
-        console.log(category.text);
-        // this.onSearch(category.text);
         const { changeCategory } = this.props;
 
         changeCategory(category.text);

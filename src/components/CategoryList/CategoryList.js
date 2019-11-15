@@ -1,8 +1,11 @@
 import React from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import shortid from 'shortid';
 import PropTypes from 'prop-types';
 import { ListCategoryDescription } from '../../styledComponents/styled';
+import { getValue } from '../../redux/value';
 
 const categories = [
     {
@@ -27,7 +30,7 @@ const categories = [
     },
 ];
 
-const CategoryList = ({ selectCategory }) => {
+const CategoryList = ({ selectCategory, location, value }) => {
     return (
         <>
             <ul>
@@ -36,7 +39,7 @@ const CategoryList = ({ selectCategory }) => {
                         <NavLink
                             to={{
                                 pathname: el.path,
-                                // search: location.search,
+                                search: value ? location.search : null,
                             }}
                         >
                             <ListCategoryDescription
@@ -56,4 +59,8 @@ CategoryList.propTypes = {
     selectCategory: PropTypes.func.isRequired,
 };
 
-export default withRouter(CategoryList);
+const mapStateToProps = state => ({
+    value: getValue(state),
+});
+
+export default compose(connect(mapStateToProps), withRouter)(CategoryList);
