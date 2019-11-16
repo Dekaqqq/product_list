@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import queryString from 'query-string';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -15,25 +14,26 @@ import { getProducts, fetchProducts } from '../../redux/products';
 import { getLoader } from '../../redux/loading';
 import { getValue, addValue } from '../../redux/value';
 import { addCategory, getCategory } from '../../redux/category';
+import { getSearchValue } from '../../services/fetchData';
 
-const filterProductsByCategory = (products, category) =>
-    products.filter(el =>
-        el.bsr_category.toLowerCase().includes(category.toLowerCase()),
-    );
-
-const getSearchValue = props => queryString.parse(props).item;
+// const filterProductsByCategory = (products, category) =>
+//     products.filter(el =>
+//         el.bsr_category.toLowerCase().includes(category.toLowerCase()),
+//     );
 
 class App extends Component {
     componentDidMount() {
-        const { location, fetchData, changeValue } = this.props;
+        const { location, fetchData, changeCategory } = this.props;
 
         fetchData();
+
+        changeCategory(location.pathname.slice(1));
 
         if (location.search) {
             const result = getSearchValue(location.search);
 
             this.onSearch(result);
-            changeValue(result);
+            // changeValue(result);
         }
     }
 
@@ -48,18 +48,12 @@ class App extends Component {
         });
     };
 
-    selectCategory = category => {
-        const { changeCategory } = this.props;
-
-        changeCategory(category.text);
-    };
-
     handleChange = value => {
         this.onSearch(value);
     };
 
     render() {
-        const { loading, products, location } = this.props;
+        const { loading, products } = this.props;
 
         return (
             <Container>
@@ -77,10 +71,16 @@ class App extends Component {
                 </Row>
                 <Row>
                     <Col sm={3}>
-                        <CategoryList selectCategory={this.selectCategory} />
+                        <CategoryList />
                     </Col>
                     <Col sm={9}>
-                        <Switch>
+                        <Route
+                            path={'/' || '/:category'}
+                            render={props => (
+                                <ProductsList products={products} {...props} />
+                            )}
+                        />
+                        {/* <Switch>
                             <Route
                                 path="/"
                                 exact
@@ -133,6 +133,7 @@ class App extends Component {
                                     const result = getSearchValue(
                                         location.search,
                                     );
+
                                     const filteredProducts = filterProductsByCategory(
                                         products,
                                         'Sports & Outdoors',
@@ -166,6 +167,7 @@ class App extends Component {
                                     const result = getSearchValue(
                                         location.search,
                                     );
+
                                     const filteredProducts = filterProductsByCategory(
                                         products,
                                         'Health & Personal Care',
@@ -199,6 +201,7 @@ class App extends Component {
                                     const result = getSearchValue(
                                         location.search,
                                     );
+
                                     const filteredProducts = filterProductsByCategory(
                                         products,
                                         'Baby Products',
@@ -226,7 +229,7 @@ class App extends Component {
                                     );
                                 }}
                             />
-                        </Switch>
+                        </Switch> */}
                     </Col>
                 </Row>
             </Container>

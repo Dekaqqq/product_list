@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { getSearchValue } from '../../services/fetchData';
 
 class ProductsInput extends Component {
     state = {
@@ -11,9 +12,7 @@ class ProductsInput extends Component {
         const { location } = this.props;
 
         if (location.search) {
-            const searchValue = location.search;
-            const index = searchValue.lastIndexOf('=');
-            const result = searchValue.substring(index + 1);
+            const result = getSearchValue(location.search);
 
             this.setState({
                 text: result,
@@ -43,7 +42,7 @@ class ProductsInput extends Component {
                     value={text}
                     onChange={this.handleChange}
                     name="text"
-                    className="form-element  text-center col-md-12"
+                    className="form-element"
                     placeholder="Enter name of product to search..."
                 />
             </>

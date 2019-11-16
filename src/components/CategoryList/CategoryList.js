@@ -3,9 +3,10 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import shortid from 'shortid';
-import PropTypes from 'prop-types';
 import { ListCategoryDescription } from '../../styledComponents/styled';
 import { getValue } from '../../redux/value';
+import { addCategory } from '../../redux/category';
+import { getProducts } from '../../redux/products';
 
 const categories = [
     {
@@ -14,23 +15,23 @@ const categories = [
     },
     {
         text: 'Home & Kitchen',
-        path: '/Home&Kitchen',
+        path: '/Home & Kitchen',
     },
     {
         text: 'Sports & Outdoors',
-        path: '/Sports&Outdoors',
+        path: '/Sports & Outdoors',
     },
     {
         text: 'Health & Personal Care',
-        path: '/Health&PersonalCare',
+        path: '/Health & PersonalCare',
     },
     {
         text: 'Baby Products',
-        path: '/BabyProducts',
+        path: '/Baby Products',
     },
 ];
 
-const CategoryList = ({ selectCategory, location, value }) => {
+const CategoryList = ({ location, value, setCategory }) => {
     return (
         <>
             <ul>
@@ -43,7 +44,7 @@ const CategoryList = ({ selectCategory, location, value }) => {
                             }}
                         >
                             <ListCategoryDescription
-                                onClick={() => selectCategory(el)}
+                                onClick={() => setCategory(el.text)}
                             >
                                 {el.text}
                             </ListCategoryDescription>
@@ -55,12 +56,16 @@ const CategoryList = ({ selectCategory, location, value }) => {
     );
 };
 
-CategoryList.propTypes = {
-    selectCategory: PropTypes.func.isRequired,
-};
-
 const mapStateToProps = state => ({
+    products: getProducts(state),
     value: getValue(state),
 });
 
-export default compose(connect(mapStateToProps), withRouter)(CategoryList);
+const mapDispatchToProps = dispatch => ({
+    setCategory: category => dispatch(addCategory(category)),
+});
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+)(CategoryList);

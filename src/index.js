@@ -8,10 +8,11 @@ import App from './components/App/App';
 import store from './redux/store/store';
 
 ReactDOM.render(
-    <HashRouter basename="/">
-        <Provider store={store}>
+    <Provider store={store}>
+        <HashRouter basename="/">
             <App />
-        </Provider>
-    </HashRouter>,
+        </HashRouter>
+    </Provider>,
+
     document.getElementById('root'),
 );
