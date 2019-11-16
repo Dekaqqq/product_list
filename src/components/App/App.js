@@ -69,7 +69,7 @@ class App extends Component {
                     </Col>
                     <Col sm={9}>
                         <Route
-                            path={'/' || '/:category'}
+                            path="/"
                             render={props => (
                                 <ProductsList products={products} {...props} />
                             )}
