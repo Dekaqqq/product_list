@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ProductItem from './ProductsItem/ProductsItem';
 import { List } from '../../styledComponents/styled';
+import { getProducts } from '../../redux/products';
 import { getValue } from '../../redux/value';
 import { getCategory } from '../../redux/category';
 
@@ -41,6 +42,7 @@ ProductsList.propTypes = {
 };
 
 const mapStateToProps = state => ({
+    products: getProducts(state),
     value: getValue(state),
     category: getCategory(state),
 });

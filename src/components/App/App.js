@@ -47,7 +47,7 @@ class App extends Component {
     };
 
     render() {
-        const { loading, products } = this.props;
+        const { loading } = this.props;
 
         return (
             <Container>
@@ -68,12 +68,7 @@ class App extends Component {
                         <CategoryList />
                     </Col>
                     <Col sm={9}>
-                        <Route
-                            path="/"
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
-                        />
+                        <Route path="/" component={ProductsList} />
                     </Col>
                 </Row>
             </Container>
