@@ -23,17 +23,6 @@ const ProductsList = ({ products, value, category }) => {
           )
         : filteredByCategory;
 
-    // const filteredProducts =
-    //     value !== 'All Categories' && value
-    //         ? products.filter(
-    //               el =>
-    //                   el.name.toLowerCase().includes(value.toLowerCase()) ||
-    //                   el.bsr_category
-    //                       .toLowerCase()
-    //                       .includes(value.toLowerCase()),
-    //           )
-    //         : products;
-
     return (
         <List>
             {filteredProducts.map(el => (

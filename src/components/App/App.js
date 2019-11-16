@@ -16,11 +16,6 @@ import { getValue, addValue } from '../../redux/value';
 import { addCategory, getCategory } from '../../redux/category';
 import { getSearchValue } from '../../services/fetchData';
 
-// const filterProductsByCategory = (products, category) =>
-//     products.filter(el =>
-//         el.bsr_category.toLowerCase().includes(category.toLowerCase()),
-//     );
-
 class App extends Component {
     componentDidMount() {
         const { location, fetchData, changeCategory } = this.props;
@@ -33,7 +28,6 @@ class App extends Component {
             const result = getSearchValue(location.search);
 
             this.onSearch(result);
-            // changeValue(result);
         }
     }
 
@@ -80,156 +74,6 @@ class App extends Component {
                                 <ProductsList products={products} {...props} />
                             )}
                         />
-                        {/* <Switch>
-                            <Route
-                                path="/"
-                                exact
-                                render={props => {
-                                    return (
-                                        <ProductsList
-                                            products={products}
-                                            {...props}
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route
-                                path="/Home&Kitchen"
-                                render={props => {
-                                    const result = getSearchValue(
-                                        location.search,
-                                    );
-
-                                    const filteredProducts = filterProductsByCategory(
-                                        products,
-                                        'Home & Kitchen',
-                                    );
-
-                                    const filteredProductsBySearchValue = result
-                                        ? filteredProducts.filter(el =>
-                                              el.name
-                                                  .toLowerCase()
-                                                  .includes(
-                                                      result.toLowerCase(),
-                                                  ),
-                                          )
-                                        : null;
-
-                                    return (
-                                        <ProductsList
-                                            products={
-                                                result
-                                                    ? filteredProductsBySearchValue
-                                                    : filteredProducts
-                                            }
-                                            {...props}
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route
-                                path="/Sports&Outdoors"
-                                render={props => {
-                                    const result = getSearchValue(
-                                        location.search,
-                                    );
-
-                                    const filteredProducts = filterProductsByCategory(
-                                        products,
-                                        'Sports & Outdoors',
-                                    );
-
-                                    const filteredProductsBySearchValue = result
-                                        ? filteredProducts.filter(el =>
-                                              el.name
-                                                  .toLowerCase()
-                                                  .includes(
-                                                      result.toLowerCase(),
-                                                  ),
-                                          )
-                                        : null;
-
-                                    return (
-                                        <ProductsList
-                                            products={
-                                                result
-                                                    ? filteredProductsBySearchValue
-                                                    : filteredProducts
-                                            }
-                                            {...props}
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route
-                                path="/Health&PersonalCare"
-                                render={props => {
-                                    const result = getSearchValue(
-                                        location.search,
-                                    );
-
-                                    const filteredProducts = filterProductsByCategory(
-                                        products,
-                                        'Health & Personal Care',
-                                    );
-
-                                    const filteredProductsBySearchValue = result
-                                        ? filteredProducts.filter(el =>
-                                              el.name
-                                                  .toLowerCase()
-                                                  .includes(
-                                                      result.toLowerCase(),
-                                                  ),
-                                          )
-                                        : null;
-
-                                    return (
-                                        <ProductsList
-                                            products={
-                                                result
-                                                    ? filteredProductsBySearchValue
-                                                    : filteredProducts
-                                            }
-                                            {...props}
-                                        />
-                                    );
-                                }}
-                            />
-                            <Route
-                                path="/BabyProducts"
-                                render={props => {
-                                    const result = getSearchValue(
-                                        location.search,
-                                    );
-
-                                    const filteredProducts = filterProductsByCategory(
-                                        products,
-                                        'Baby Products',
-                                    );
-
-                                    const filteredProductsBySearchValue = result
-                                        ? filteredProducts.filter(el =>
-                                              el.name
-                                                  .toLowerCase()
-                                                  .includes(
-                                                      result.toLowerCase(),
-                                                  ),
-                                          )
-                                        : null;
-
-                                    return (
-                                        <ProductsList
-                                            products={
-                                                result
-                                                    ? filteredProductsBySearchValue
-                                                    : filteredProducts
-                                            }
-                                            {...props}
-                                        />
-                                    );
-                                }}
-                            />
-                        </Switch> */}
                     </Col>
                 </Row>
             </Container>
