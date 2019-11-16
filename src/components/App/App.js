@@ -42,7 +42,9 @@ class App extends Component {
         });
     };
 
-    handleChange = value => {
+    handleChange = ({ target }) => {
+        const { value } = target;
+
         this.onSearch(value);
     };
 
@@ -60,7 +62,7 @@ class App extends Component {
                 )}
                 <Row className="justify-content-md-center">
                     <Col sm={10}>
-                        <ProductsInput onSearch={this.handleChange} />
+                        <ProductsInput onChange={this.handleChange} />
                     </Col>
                 </Row>
                 <Row>
