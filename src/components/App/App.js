@@ -56,31 +56,35 @@ class App extends Component {
         const { loading, products } = this.props;
 
         return (
-            <Container>
-                {loading && (
-                    <Loader
-                        type="Triangle"
-                        color="#00BFFF"
-                        style={{ textAlign: 'center' }}
-                    />
-                )}
-                <Row className="justify-content-md-center">
-                    <Col sm={10}>
-                        <ProductsInput onSearch={this.handleChange} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={3}>
-                        <CategoryList />
-                    </Col>
-                    <Col sm={9}>
-                        <Route
-                            path={'/' || '/:category'}
-                            render={props => (
-                                <ProductsList products={products} {...props} />
-                            )}
+            <div data-test="appComponent">
+                <Container>
+                    {loading && (
+                        <Loader
+                            type="Triangle"
+                            color="#00BFFF"
+                            style={{ textAlign: 'center' }}
                         />
-                        {/* <Switch>
+                    )}
+                    <Row className="justify-content-md-center">
+                        <Col sm={10}>
+                            <ProductsInput onSearch={this.handleChange} />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col sm={3}>
+                            <CategoryList />
+                        </Col>
+                        <Col sm={9}>
+                            <Route
+                                path={'/' || '/:category'}
+                                render={props => (
+                                    <ProductsList
+                                        products={products}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            {/* <Switch>
                             <Route
                                 path="/"
                                 exact
@@ -230,9 +234,10 @@ class App extends Component {
                                 }}
                             />
                         </Switch> */}
-                    </Col>
-                </Row>
-            </Container>
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         );
     }
 }

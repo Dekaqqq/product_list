@@ -9,9 +9,9 @@ import { categoryReducer } from '../category';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const middleware = [sagaMiddleware];
+export const middleware = [sagaMiddleware];
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     products: productsReducer,
     loading: loaderReducer,
     error: errorReducer,
